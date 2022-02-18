@@ -1,10 +1,15 @@
-import { View, Text } from 'react-native'
+import 'react-native-gesture-handler'
 import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { StatusBar  } from 'react-native'
+
+import { Routes } from './src/routes'
 
 export default function App() {
   return (
-    <View>
-      <Text>FinanceApp</Text>
-    </View>
+    <NavigationContainer>
+      <StatusBar backgroundColor="#131313" barStyle="light-content" />
+      <Routes/>      
+    </NavigationContainer>
   )
 }
