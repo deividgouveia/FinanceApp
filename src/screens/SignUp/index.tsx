@@ -14,8 +14,9 @@ import {
   ImageLogoTitulo
 } from './styles';
 
-export default function SignIn() {
+export default function SignUp() {
 
+  const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [eye, setEye] = React.useState(true);
@@ -34,8 +35,19 @@ export default function SignIn() {
           
         <AreaInput>
 
-          <TituloLogin>Login</TituloLogin>
-          <TituloDados>Digite seus dados para entrar.</TituloDados>
+          <TituloLogin>Cadastro</TituloLogin>
+          <TituloDados>Digite seus dados para cadastrar.</TituloDados>
+
+           <Input 
+            placeholder="Digite seu nome"
+            value={name}
+            onChangeText={(text) => setName(text)}
+            leftIcon={{
+              type: 'feather',
+              name: 'user'
+            }} 
+            autoCompleteType={undefined}         
+          />
 
           <Input 
             placeholder="Digite seu e-mail"
@@ -69,7 +81,7 @@ export default function SignIn() {
           />
 
           <Button 
-           title="Entrar"
+           title="Cadastrar"
            titleStyle={{fontWeight:"bold", fontSize: 15}}
            buttonStyle={{
              marginTop: 15, 
@@ -79,8 +91,8 @@ export default function SignIn() {
           />
 
           <LinkCadastro>
-            <LinkText>Ainda não possui uma conta?</LinkText>
-            <LinkTextBold>Cadastre-se</LinkTextBold>
+            <LinkText>Já possui uma conta?</LinkText>
+            <LinkTextBold>Faça Login</LinkTextBold>
           </LinkCadastro> 
         </AreaInput>    
 
