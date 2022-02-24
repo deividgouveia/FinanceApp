@@ -7,12 +7,3 @@ export const ContainerPreload = styled.View`
   align-Items: center;
 `;
 
-export const ImageLogo = styled.Image`
-  width: 300px;
-  height: 300px;
-  margin-Top: 50%;
-`;
-
-export const LoadingIcon = styled.ActivityIndicator`
-    margin-bottom: 80%;
-`;

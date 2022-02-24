@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
 
-export const Background = styled.KeyboardAvoidingView`
+export const Background = styled.View`
  flex: 1;
  background-color: #ffffff;
 `;
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
  flex: 1;
  align-items: center;
  justify-content: center;
@@ -14,11 +14,6 @@ export const Container = styled.View`
 export const AreaImage = styled.View`
  flex: 0.5;
  margin-bottom: 30%;
-`;
-
-export const ImageLogoTitulo = styled.Image`
- width: 250px;
- height: 250px;
 `;
 
 export const TituloLogin = styled.Text`

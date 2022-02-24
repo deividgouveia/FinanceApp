@@ -1,5 +1,6 @@
-import React from 'react'
-import { Button, Icon, Input } from 'react-native-elements';
+import React, { useContext } from 'react'
+import { useNavigation } from '@react-navigation/native';
+import { Icon, Input } from 'react-native-elements';
 
 import { 
   Container,
@@ -10,11 +11,18 @@ import {
   LinkTextBold,
   TituloLogin,
   TituloDados,
-  AreaImage,
-  ImageLogoTitulo
+  AreaImage
 } from './styles';
 
+import SignButtons from '../../components/atoms/Buttons/SignButtons';
+import { AuthNavigationProps } from '../../routes/types';
+import { LogoNameBlue } from '../../components/molecules/Logo/LogoNameBlue';
+import { Platform } from 'react-native';
+import { AuthContext } from '../../hooks/auth';
+
 export default function SignIn() {
+
+  const navigation = useNavigation<AuthNavigationProps>();
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -23,13 +31,10 @@ export default function SignIn() {
 
   return (
     <Background>
-      <Container>   
+      <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>   
 
         <AreaImage>
-          <ImageLogoTitulo 
-           source={require("../../assets/images/LogoTitulo.png")}
-           resizeMode="contain"
-          />
+          <LogoNameBlue />
         </AreaImage>  
           
         <AreaInput>
@@ -68,17 +73,13 @@ export default function SignIn() {
             autoCompleteType={undefined}         
           />
 
-          <Button 
-           title="Entrar"
-           titleStyle={{fontWeight:"bold", fontSize: 15}}
-           buttonStyle={{
-             marginTop: 15, 
-             padding: 15, 
-             backgroundColor:"#004aad"}}
-           loading={loading}
+          <SignButtons 
+            title='Entrar'
+            loading={loading}
+            onPress={()=>null}
           />
 
-          <LinkCadastro>
+          <LinkCadastro onPress={() => navigation.navigate('SignUp')}>
             <LinkText>Ainda não possui uma conta?</LinkText>
             <LinkTextBold>Cadastre-se</LinkTextBold>
           </LinkCadastro> 

@@ -1,6 +1,7 @@
-import React from 'react'
-import { Button, Icon, Input } from 'react-native-elements';
-
+import React, { useContext } from 'react'
+import { useNavigation } from '@react-navigation/native';
+import { Icon, Input } from 'react-native-elements';
+import { useAuth } from '../../contexts/auth'; 
 import { 
   Container,
   Background,
@@ -11,26 +12,32 @@ import {
   TituloLogin,
   TituloDados,
   AreaImage,
-  ImageLogoTitulo
 } from './styles';
+
+import SignButtons from '../../components/atoms/Buttons/SignButtons';
+import { LogoNameBlue } from '../../components/molecules/Logo/LogoNameBlue';
 
 export default function SignUp() {
 
-  const [name, setName] = React.useState('');
+  const navigation = useNavigation();
+
+  const [nome, setNome] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [eye, setEye] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
+
+  const {handleSignUp} = useAuth();
+
+  async function RegisterUser(){
+    await handleSignUp({nome, email, password})
+  }
 
   return (
     <Background>
       <Container>   
 
         <AreaImage>
-          <ImageLogoTitulo 
-           source={require("../../assets/images/LogoTitulo.png")}
-           resizeMode="contain"
-          />
+          <LogoNameBlue />
         </AreaImage>  
           
         <AreaInput>
@@ -40,8 +47,8 @@ export default function SignUp() {
 
            <Input 
             placeholder="Digite seu nome"
-            value={name}
-            onChangeText={(text) => setName(text)}
+            value={nome}
+            onChangeText={(text) => setNome(text)}
             leftIcon={{
               type: 'feather',
               name: 'user'
@@ -80,17 +87,13 @@ export default function SignUp() {
             autoCompleteType={undefined}         
           />
 
-          <Button 
-           title="Cadastrar"
-           titleStyle={{fontWeight:"bold", fontSize: 15}}
-           buttonStyle={{
-             marginTop: 15, 
-             padding: 15, 
-             backgroundColor:"#004aad"}}
-           loading={loading}
+          <SignButtons 
+           title='Cadastrar'
+           loading={false}
+           onPress={RegisterUser}
           />
 
-          <LinkCadastro>
+          <LinkCadastro onPress={() => navigation.goBack()}>
             <LinkText>Já possui uma conta?</LinkText>
             <LinkTextBold>Faça Login</LinkTextBold>
           </LinkCadastro> 
