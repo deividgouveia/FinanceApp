@@ -29,16 +29,22 @@ export const TituloDados = styled.Text`
  margin-bottom: 35px;
 `;
 
-export const AreaInput = styled.View`
+export const AreaInput = styled.View`                                                      
  width: 90%;
  margin-bottom: 20%;
  padding: 20px;
 `;
 
-export const LinkCadastro = styled.TouchableOpacity`
+export const ViewLogin = styled.View`
  flex-direction: row;
- margin-top: 35px;
+ justify-content: center;
+ align-items: center;
+ margin-top: 25px;
  margin-left: 35px;
+`;
+
+export const LinkCadastro = styled.TouchableOpacity`
+ flex: 1;
 `;
 
 export const LinkText = styled.Text`

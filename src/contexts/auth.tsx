@@ -4,9 +4,10 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword
 } from 'firebase/auth';
-import { app, db } from "../services/firebaseConnection";
-import { ref, set } from "firebase/database";
+import { app, db, dbRef } from "../services/firebaseConnection";
+import { ref, set, get, child } from "firebase/database";
 import {IAuthContext} from './types';
+import { ToastAndroid } from "react-native";
 
 interface IUser {
   uid: string
@@ -14,7 +15,7 @@ interface IUser {
   email: string | null
 }
 
-export const AuthContext = createContext({} as IAuthContext);
+const AuthContext = createContext({} as IAuthContext);
 
 export const AuthProvider: React.FC = ({children}) => {
 
@@ -23,12 +24,42 @@ export const AuthProvider: React.FC = ({children}) => {
     nome: '',
     email: '',
   });
+  const [loading, setLoadign] = useState(false);
 
   const auth = getAuth(app);
+
+  //LOGAR USUÁRIO-------------------------------------------------------------//
+  async function handleSignIn
+  ({email, password}:{email:string; password:string}){
+    setLoadign(true);
+
+    await signInWithEmailAndPassword(auth, email, password)
+    .then(async(value)=>{
+      let userId = value.user.uid;
+      let userEmail = value.user.email;
+      await get(child(dbRef, `users/${userId}`))
+      .then((snapshot)=>{
+        console.log(snapshot.val().nome)
+         let data = {
+           uid: userId,
+           nome: snapshot.val().nome,
+           email: userEmail
+         };
+         setUser(data);
+         setLoadign(false);
+      })
+    })
+    .catch((error)=>{
+      ToastAndroid.show('Error:',error.code)
+    })
+  }
+  //--------------------------------------------------------------------------//
 
   //CADASTRAR USUÁRIO---------------------------------------------------------//
   async function handleSignUp
   ({nome, email, password}:{nome:string; email:string; password:string}) {
+    setLoadign(true);
+
     await createUserWithEmailAndPassword(auth, email, password)
     .then(async(value)=>{
       let userId = value.user.uid;
@@ -44,24 +75,36 @@ export const AuthProvider: React.FC = ({children}) => {
           email: userEmail
         };
         setUser(data);
+        setLoadign(false);
       })
-      console.log(user);
-      console.log(user.uid);
     })
+    .catch((error)=>{
+      ToastAndroid.show('Error:',error.code);
+    });
   
   }
   //--------------------------------------------------------------------------//
 
   return(
-    <AuthContext.Provider value={{ user, handleSignUp }}>
+    <AuthContext.Provider 
+    value={{ 
+      user, 
+      handleSignUp, 
+      handleSignIn,
+      loading 
+      }}>
        {children}
     </AuthContext.Provider>
   );
 };
 
 export function useAuth(){
-  const { user, handleSignUp } = useContext(AuthContext);
+  const { 
+    user, 
+    handleSignUp, 
+    handleSignIn, 
+    loading } = useContext(AuthContext);
   return(
-    {user, handleSignUp}
+    {user, handleSignUp, handleSignIn, loading}
   );
 }

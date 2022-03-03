@@ -35,9 +35,14 @@ export const AreaInput = styled.View`
  padding: 20px;
 `;
 
-export const LinkCadastro = styled.TouchableOpacity`
+export const ViewCadastro = styled.View`
  flex-direction: row;
- margin-top: 35px;
+ margin-top: 25px;
+ margin-left: 2px;
+`;
+
+export const LinkCadastro = styled.TouchableOpacity`
+ flex: 1;
 `;
 
 export const LinkText = styled.Text`

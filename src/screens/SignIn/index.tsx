@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Icon, Input } from 'react-native-elements';
-
 import { 
   Container,
   Background,
   AreaInput,
+  ViewCadastro,
   LinkCadastro,
   LinkText,
   LinkTextBold,
@@ -13,12 +13,12 @@ import {
   TituloDados,
   AreaImage
 } from './styles';
-
+import Toast from 'react-native-toast-message';
 import SignButtons from '../../components/atoms/Buttons/SignButtons';
 import { AuthNavigationProps } from '../../routes/types';
 import { LogoNameBlue } from '../../components/molecules/Logo/LogoNameBlue';
 import { Platform } from 'react-native';
-import { AuthContext } from '../../hooks/auth';
+import { useAuth } from '../../contexts/auth';
 
 export default function SignIn() {
 
@@ -27,7 +27,12 @@ export default function SignIn() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [eye, setEye] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
+
+  const { handleSignIn, loading} = useAuth();
+
+  async function LoginUser(){
+    await handleSignIn({email, password})
+  }
 
   return (
     <Background>
@@ -76,13 +81,16 @@ export default function SignIn() {
           <SignButtons 
             title='Entrar'
             loading={loading}
-            onPress={()=>null}
+            onPress={LoginUser}
           />
 
-          <LinkCadastro onPress={() => navigation.navigate('SignUp')}>
+          <ViewCadastro>
             <LinkText>Ainda não possui uma conta?</LinkText>
-            <LinkTextBold>Cadastre-se</LinkTextBold>
-          </LinkCadastro> 
+             <LinkCadastro onPress={ () => navigation.navigate('SignUp')}>
+               <LinkTextBold>Cadastre-se</LinkTextBold>
+             </LinkCadastro>
+          </ViewCadastro>
+        
         </AreaInput>    
 
       </Container>

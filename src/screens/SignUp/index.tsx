@@ -6,6 +6,7 @@ import {
   Container,
   Background,
   AreaInput,
+  ViewLogin,
   LinkCadastro,
   LinkText,
   LinkTextBold,
@@ -26,7 +27,7 @@ export default function SignUp() {
   const [password, setPassword] = React.useState('');
   const [eye, setEye] = React.useState(true);
 
-  const {handleSignUp} = useAuth();
+  const {handleSignUp, loading} = useAuth();
 
   async function RegisterUser(){
     await handleSignUp({nome, email, password})
@@ -89,14 +90,17 @@ export default function SignUp() {
 
           <SignButtons 
            title='Cadastrar'
-           loading={false}
+           loading={loading}
            onPress={RegisterUser}
           />
 
-          <LinkCadastro onPress={() => navigation.goBack()}>
+          <ViewLogin>
             <LinkText>Já possui uma conta?</LinkText>
-            <LinkTextBold>Faça Login</LinkTextBold>
-          </LinkCadastro> 
+             <LinkCadastro onPress={() => navigation.goBack()}>
+              <LinkTextBold>Faça Login</LinkTextBold>
+             </LinkCadastro> 
+          </ViewLogin>
+        
         </AreaInput>    
 
       </Container>
