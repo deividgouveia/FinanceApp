@@ -1,13 +1,15 @@
-import React, {createContext, useContext, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 import { 
   getAuth,
   signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  signOut
 } from 'firebase/auth';
 import { app, db, dbRef } from "../services/firebaseConnection";
 import { ref, set, get, child } from "firebase/database";
 import {IAuthContext} from './types';
 import { ToastAndroid } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IUser {
   uid: string
@@ -38,13 +40,14 @@ export const AuthProvider: React.FC = ({children}) => {
       let userId = value.user.uid;
       let userEmail = value.user.email;
       await get(child(dbRef, `users/${userId}`))
-      .then((snapshot)=>{
+      .then(async(snapshot)=>{
         console.log(snapshot.val().nome)
          let data = {
            uid: userId,
            nome: snapshot.val().nome,
            email: userEmail
          };
+         await AsyncStorage.setItem('@FinanceApp:User', JSON.stringify(data));
          setUser(data);
          setLoadign(false);
       })
@@ -68,12 +71,13 @@ export const AuthProvider: React.FC = ({children}) => {
         nome: nome,
         saldo: 0
       })
-      .then(()=>{
+      .then(async()=>{
         let data = {
           uid: userId,
           nome: nome,
           email: userEmail
         };
+        await AsyncStorage.setItem('@FinanceApp:User', JSON.stringify(data));
         setUser(data);
         setLoadign(false);
       })
@@ -85,12 +89,38 @@ export const AuthProvider: React.FC = ({children}) => {
   }
   //--------------------------------------------------------------------------//
 
+  //DESLOGAR USUÁRIO----------------------------------------------------------//
+  async function handleLogout(){
+     await signOut(auth)
+     await AsyncStorage.clear()
+     .then(()=>{
+       setUser({
+         uid: '',
+         nome: '',
+         email: ''
+       });
+     })
+  }  
+  //--------------------------------------------------------------------------//
+
+  useEffect(()=>{
+      async function loadStorage(){
+        const storageUser = await AsyncStorage.getItem('@FinanceApp:User');
+        
+        if(storageUser){
+           setUser(JSON.parse(storageUser));   
+        }
+      }
+      loadStorage();
+  },[]);
+
   return(
     <AuthContext.Provider 
     value={{ 
       user, 
       handleSignUp, 
       handleSignIn,
+      handleLogout,
       loading 
       }}>
        {children}
@@ -103,8 +133,10 @@ export function useAuth(){
     user, 
     handleSignUp, 
     handleSignIn, 
-    loading } = useContext(AuthContext);
+    handleLogout,
+    loading 
+  } = useContext(AuthContext);
   return(
-    {user, handleSignUp, handleSignIn, loading}
+    {user, handleSignUp, handleSignIn, handleLogout, loading}
   );
 }

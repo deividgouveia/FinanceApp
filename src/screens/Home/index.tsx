@@ -1,17 +1,22 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { 
+  Container,
+  ViewLogo,
+  ViewTitulos,
+  ViewList,
+  TextNome,
+  TextSaldo
+} from './styles'; 
 import { useAuth } from '../../contexts/auth'
+
 
 export default function Home() {
 
-  const {user} = useAuth();
+  const {user, handleLogout} = useAuth();
 
   return (
-    <View>
-      <Text>Home</Text>
-      <Text>{user && user.nome}</Text>
-      <Text>{user && user.email}</Text>
-      <Text>{user && user.uid}</Text>
-    </View>
+     <Container>
+       
+     </Container>
   )
 }

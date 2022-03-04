@@ -7,4 +7,5 @@ export interface IAuthContext {
   loading: boolean;
   handleSignUp({nome, email, password}:{nome:string; email:string; password:string}):void;
   handleSignIn({email, password}:{email:string; password:string}):void;
+  handleLogout(): void;
 }

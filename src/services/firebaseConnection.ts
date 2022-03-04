@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { getApps, initializeApp } from 'firebase/app';
 import { getDatabase, ref } from 'firebase/database'; 
 
 const firebaseConfig = {
@@ -11,6 +11,10 @@ const firebaseConfig = {
   appId: "1:907371573127:web:c86c6cfb54fe8a87892d22",
   measurementId: "G-4R2EN387YN"
 };
+
+if(!getApps.length){
+  initializeApp(firebaseConfig);
+}
 
 export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
