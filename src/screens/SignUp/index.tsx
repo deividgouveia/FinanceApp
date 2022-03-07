@@ -16,7 +16,7 @@ import {
 } from './styles';
 
 import SignButtons from '../../components/atoms/Buttons/SignButtons';
-import { LogoNameBlue } from '../../components/molecules/Logo/LogoNameBlue';
+import Header from '../../components/molecules/Header';
 
 export default function SignUp() {
 
@@ -38,7 +38,7 @@ export default function SignUp() {
       <Container>   
 
         <AreaImage>
-          <LogoNameBlue />
+          <Header />
         </AreaImage>  
           
         <AreaInput>

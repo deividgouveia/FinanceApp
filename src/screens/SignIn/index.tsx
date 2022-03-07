@@ -16,9 +16,9 @@ import {
 import Toast from 'react-native-toast-message';
 import SignButtons from '../../components/atoms/Buttons/SignButtons';
 import { AuthNavigationProps } from '../../routes/types';
-import { LogoNameBlue } from '../../components/molecules/Logo/LogoNameBlue';
 import { Platform } from 'react-native';
 import { useAuth } from '../../contexts/auth';
+import Header from '../../components/molecules/Header';
 
 export default function SignIn() {
 
@@ -39,7 +39,7 @@ export default function SignIn() {
       <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>   
 
         <AreaImage>
-          <LogoNameBlue />
+          <Header />
         </AreaImage>  
           
         <AreaInput>

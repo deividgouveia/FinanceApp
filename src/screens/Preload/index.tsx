@@ -1,14 +1,23 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { 
-  ContainerPreload, 
-} from './styles'
-import { LogoWhite } from '../../components/molecules/Logo/LogoWhite'
+import React from 'react';
 
-export default function Preload() {
+import {
+  ContainerPreload,
+  ImageFinanceapp,
+  ContentPreload,
+  ContainerImageFinanceapp,
+} from './styles';
+
+
+const Preload: React.FC = () => {
   return (
     <ContainerPreload>
-         <LogoWhite />      
+      <ContentPreload>
+        <ContainerImageFinanceapp>
+          <ImageFinanceapp />
+        </ContainerImageFinanceapp>
+      </ContentPreload>
     </ContainerPreload>
-  )
-}
+  );
+};
+
+export default Preload;
