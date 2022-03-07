@@ -41,7 +41,6 @@ export const AuthProvider: React.FC = ({children}) => {
       let userEmail = value.user.email;
       await get(child(dbRef, `users/${userId}`))
       .then(async(snapshot)=>{
-        console.log(snapshot.val().nome)
          let data = {
            uid: userId,
            nome: snapshot.val().nome,
