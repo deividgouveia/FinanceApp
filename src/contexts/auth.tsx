@@ -10,6 +10,7 @@ import { ref, set, get, child } from "firebase/database";
 import {IAuthContext} from './types';
 import { ToastAndroid } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 interface IUser {
   uid: string
@@ -33,6 +34,16 @@ export const AuthProvider: React.FC = ({children}) => {
   //LOGAR USUÁRIO-------------------------------------------------------------//
   async function handleSignIn
   ({email, password}:{email:string; password:string}){
+    
+    if(email === '' || password === ''){
+      await Toast.show({
+        type: 'error',
+        position: 'bottom',
+        text1: 'Preencha os dados.',
+      })
+      return;
+    }
+    
     setLoadign(true);
 
     await signInWithEmailAndPassword(auth, email, password)
@@ -49,10 +60,20 @@ export const AuthProvider: React.FC = ({children}) => {
          await AsyncStorage.setItem('@FinanceApp:User', JSON.stringify(data));
          setUser(data);
          setLoadign(false);
+         Toast.show({
+           type: 'success',
+           position: 'top',
+           text1: `Bem-Vindo ${data.nome}!`
+         })
       })
     })
-    .catch((error)=>{
-      ToastAndroid.show('Error:',error.code)
+    .catch(()=>{
+      Toast.show({
+        type: 'info',
+        position: 'bottom',
+        text1: 'Usuário ou senha incorretos.'
+      })
+      setLoadign(false);
     })
   }
   //--------------------------------------------------------------------------//
@@ -60,6 +81,16 @@ export const AuthProvider: React.FC = ({children}) => {
   //CADASTRAR USUÁRIO---------------------------------------------------------//
   async function handleSignUp
   ({nome, email, password}:{nome:string; email:string; password:string}) {
+
+    if(nome === '' || email === '' || password === ''){
+      await Toast.show({
+        type: 'error',
+        position: 'bottom',
+        text1: 'Preencha os dados.',
+      })
+      return;
+    }
+
     setLoadign(true);
 
     await createUserWithEmailAndPassword(auth, email, password)
@@ -79,10 +110,20 @@ export const AuthProvider: React.FC = ({children}) => {
         await AsyncStorage.setItem('@FinanceApp:User', JSON.stringify(data));
         setUser(data);
         setLoadign(false);
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: `Seja bem-vindo ${data.nome}!`
+        })
       })
     })
-    .catch((error)=>{
-      ToastAndroid.show('Error:',error.code);
+    .catch(()=>{
+      Toast.show({
+        type: 'info',
+        position: 'bottom',
+        text1: 'Digite dados válidos.'
+      })
+      setLoadign(false);
     });
   
   }

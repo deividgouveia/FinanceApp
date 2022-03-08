@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { 
   Container,
   ViewLogo,
@@ -13,7 +13,7 @@ import { useAuth } from '../../contexts/auth'
 export default function Home() {
 
   const {user, handleLogout} = useAuth();
-
+  
   return (
      <Container>
        
