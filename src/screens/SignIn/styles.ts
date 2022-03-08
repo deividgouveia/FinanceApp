@@ -38,7 +38,7 @@ export const AreaInput = styled.View`
 export const ViewCadastro = styled.View`
  flex-direction: row;
  margin-top: 25px;
- margin-left: 2px;
+ margin-left: 4px;
 `;
 
 export const LinkCadastro = styled.TouchableOpacity`

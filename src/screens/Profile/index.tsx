@@ -1,17 +1,50 @@
-import { View, Text, Button } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { 
+  Container,
+  ViewProfile,
+  ViewButtom,
+  TextNome,
+  TextEmail,
+  ButtomLogout,
+  TextButtom
+} from './styles'; 
 
 import { useAuth } from '../../contexts/auth'
+import { Icon } from 'react-native-elements';
 
 export default function Profile() {
 
-  const {handleLogout} = useAuth();
+  const {user, handleLogout} = useAuth();
 
   return (
-    <View>
-      <Button 
-      title='Sair'
-      onPress={handleLogout}/>
-    </View>
+    <Container>
+
+      <ViewProfile>
+         <Icon 
+          name="account-circle-outline"
+          type="material-community"
+          size={85}
+          color='#004dda'
+          tvParallaxProperties={undefined} 
+          />
+         
+         <TextNome>{user.nome}</TextNome>
+         <TextEmail>{user.email}</TextEmail>
+      </ViewProfile>
+
+      <ViewButtom>
+        <ButtomLogout onPress={handleLogout}>
+          <Icon 
+            name="power"
+            type="material-community" 
+            size={40}
+            color="#e54848"
+            tvParallaxProperties={undefined}           
+          />
+          <TextButtom>Sair</TextButtom>
+        </ButtomLogout>
+      </ViewButtom>
+
+    </Container>
   )
 }
