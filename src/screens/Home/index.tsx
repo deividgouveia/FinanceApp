@@ -10,7 +10,7 @@ import {
 } from './styles'; 
 import { useAuth } from '../../contexts/auth'
 import Header from '../../components/molecules/HeaderHome';
-
+import HistoryList from '../../components/atoms/HistoryList';
 
 export default function Home() {
 
@@ -19,6 +19,9 @@ export default function Home() {
     {key: '2', tipo:'despesa', valor:200},
     {key: '3', tipo:'receita', valor:40},
     {key: '4', tipo:'receita', valor:100},
+    {key: '5', tipo:'despesa', valor:89.62},
+    {key: '5', tipo:'despesa', valor:89.62},
+    {key: '5', tipo:'despesa', valor:89.62},
     {key: '5', tipo:'despesa', valor:89.62}
   ]);
 
@@ -41,7 +44,9 @@ export default function Home() {
          showsVerticalScrollIndicator={false}
          data={historico}
          keyExtractor={ (item, index) => index.toString()} 
-         renderItem={undefined}
+         renderItem={({item}) => (
+           <HistoryList/>
+         )}
         />
 
      </Container>

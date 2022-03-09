@@ -8,7 +8,6 @@ import {
 import { app, db, dbRef } from "../services/firebaseConnection";
 import { ref, set, get, child } from "firebase/database";
 import {IAuthContext} from './types';
-import { ToastAndroid } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 

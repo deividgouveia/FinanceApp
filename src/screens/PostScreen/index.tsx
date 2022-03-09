@@ -1,11 +1,10 @@
-import React from "react";
-import { View } from "react-native";
-import { Text } from "react-native-elements";
+import { View, Text } from 'react-native'
+import React from 'react'
 
-export default function PostScreen (){
-  return(
+export default function PostScreen () {
+  return (
     <View>
-      <Text>Add Register!</Text>
+      <Text>PostScreen </Text>
     </View>
   )
 }

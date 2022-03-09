@@ -9,6 +9,7 @@ import { IconHome } from "../components/atoms/Icons/IconHome";
 import { IconProfile } from "../components/atoms/Icons/IconProfile";
 import { IconAddRegister} from "../components/atoms/Icons/IconAddRegister";
 import { AddRegister } from "../components/atoms/Buttons/AddRegister";
+import ModalRegister from "../components/atoms/ModalRegister";
 
 const Tab = createBottomTabNavigator();
 
@@ -45,12 +46,7 @@ export function AppRoutes(){
       name="Post" 
       component={PostScreen} 
       options={{
-        tabBarIcon: ()=>(
-          <IconAddRegister />
-        ),
-        tabBarButton: (props) => (
-          <AddRegister {...props}/>
-        )
+        tabBarButton: () => (<AddRegister />)
       }}
       />
       <Tab.Screen 

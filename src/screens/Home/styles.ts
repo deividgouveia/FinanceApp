@@ -39,10 +39,8 @@ export const TextList = styled(Text)`
 export const List = styled(FlatList)`
   flex: 1;
   padding: 15px;
-  elevation: 3px;
-  margin-top: 50px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-top: 45px;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 135px;
 `;
