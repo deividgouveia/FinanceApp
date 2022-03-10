@@ -79,6 +79,7 @@ const AddButtonTab = styled(TouchableOpacity)`
   border-width: 4px;
   border-color: #004dda;
   top: -30px;
+  elevation: 5px;
 `;
 
 const ContinerModal = styled(View)`

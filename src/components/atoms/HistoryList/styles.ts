@@ -17,7 +17,8 @@ export const Tipo = styled(View)`
 
 export const IconView = styled(View)`
   flex-direction: row;
-  background-color: #18b738;
+  background-color: ${(props: {tipo: string}) => 
+    props.tipo === "receita" ? "#18b738" : "#e54848"};
   padding-bottom: 3px;
   padding-top: 3px;
   padding-left: 8px;

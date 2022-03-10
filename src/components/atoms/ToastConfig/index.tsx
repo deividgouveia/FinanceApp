@@ -15,21 +15,10 @@ export default {
       <TextStyle>{text1}</TextStyle>   
     </ContainerToast>
   ),
-  error: ({text1 }:{text1: string}) => (
+  error: ({text1, text2  }:{text1: string, text2:string}) => (
     <ContainerToast bgColor='#e54848'>
       <Icon 
-      name='alert-circle'
-      type="material-community"
-      size={25} 
-      color="#fff"
-      tvParallaxProperties={undefined} />
-      <TextStyle>{text1}</TextStyle>      
-    </ContainerToast>
-  ),
-  info: ({text1 }:{text1: string}) => (
-    <ContainerToast bgColor='#e54848'>
-      <Icon 
-      name='account-alert'
+      name={text2}
       type="material-community"
       size={25} 
       color="#fff"
