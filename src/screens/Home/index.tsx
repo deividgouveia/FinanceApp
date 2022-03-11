@@ -6,12 +6,14 @@ import {
   List,
   TextNome,
   TextSaldo,
-  TextList
+  TextList,
+  ViewList
 } from './styles'; 
 import { useAuth } from '../../contexts/auth'
 import Header from '../../components/molecules/HeaderHome';
 import HistoryList from '../../components/atoms/HistoryList';
 import { IDados } from '../../interfaces';
+import { ScrollView } from 'react-native';
 
 export default function Home() {
 
@@ -33,18 +35,21 @@ export default function Home() {
   }
 
   return (
-     <Container>
+    <ScrollView style={{backgroundColor: "#ffffff"}}>
+     
+      <Container>
         
         <ViewLogo>
           <Header/>
         </ViewLogo>
 
         <ViewTitulos>
-          <TextNome>Olá, {user.nome}</TextNome>
+          <TextNome>Olá, {user && user.nome}</TextNome>
           <TextSaldo>R$ 000000</TextSaldo>
           <TextList>Últimas movimentações</TextList>
         </ViewTitulos>
- 
+        
+        <ViewList>
         <List 
          showsVerticalScrollIndicator={false}
          data={historico}
@@ -53,7 +58,9 @@ export default function Home() {
            <HistoryList data={item} deleteItem={handleDelete}/>
          )}
         />
+        </ViewList>
 
-     </Container>
+      </Container>
+     </ScrollView>
   )
 }

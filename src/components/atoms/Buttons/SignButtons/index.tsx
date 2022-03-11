@@ -16,7 +16,7 @@ const SignButtons: FunctionComponent<{
   buttonStyle={{
     marginTop: 15, 
     padding: 15, 
-    backgroundColor:"#004aad"}}
+    backgroundColor:"#004dda"}}
   loading={loading}
   onPress={() => onPress()}
   />

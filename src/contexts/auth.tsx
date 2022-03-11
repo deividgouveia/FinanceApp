@@ -88,6 +88,7 @@ export const AuthProvider: React.FC = ({children}) => {
         type: 'error',
         position: 'bottom',
         text1: 'Preencha os dados.',
+        text2: 'alert-circle'
       })
       return;
     }
@@ -120,9 +121,10 @@ export const AuthProvider: React.FC = ({children}) => {
     })
     .catch(()=>{
       Toast.show({
-        type: 'info',
+        type: 'error',
         position: 'bottom',
-        text1: 'Digite dados válidos.'
+        text1: 'Digite dados válidos.',
+        text2: 'account-alert'
       })
       setLoadign(false);
     });

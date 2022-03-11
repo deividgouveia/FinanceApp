@@ -25,7 +25,7 @@ const HistoryList: React.FC<{data:IDados, deleteItem:Function}> = ({data , delet
            />
         <TipoText>{data.tipo}</TipoText>
         </IconView>
-        <ValorText>R$ 900</ValorText>
+        <ValorText>R$ {data.valor}</ValorText>
       </Tipo>
 
       <IconDelete onPress={()=>deleteItem(data)}>

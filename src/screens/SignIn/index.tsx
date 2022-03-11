@@ -1,22 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Icon, Input } from 'react-native-elements';
 import { 
-  Container,
-  Background,
+  AreaButton,
   AreaInput,
-  ViewCadastro,
+  AreaTextLink,
+  Container, 
+  TextSubtitulo, 
+  TextTitulo,
   LinkCadastro,
   LinkText,
-  LinkTextBold,
-  TituloLogin,
-  TituloDados,
-  AreaImage
+  LinkTextBold
 } from './styles';
-import Toast from 'react-native-toast-message';
+import { ScrollView } from 'react-native';
 import SignButtons from '../../components/atoms/Buttons/SignButtons';
 import { AuthNavigationProps } from '../../routes/types';
-import { Platform } from 'react-native';
 import { useAuth } from '../../contexts/auth';
 import Header from '../../components/molecules/Header';
 
@@ -35,65 +33,62 @@ export default function SignIn() {
   }
 
   return (
-    <Background>
-      <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>   
+      <ScrollView style={{backgroundColor: '#ffffff'}}>
+          <Container>
+             
+             <Header/>
+             <TextTitulo>Login</TextTitulo>
+             <TextSubtitulo>Digite seus dados para entrar.</TextSubtitulo>
 
-        <AreaImage>
-          <Header />
-        </AreaImage>  
-          
-        <AreaInput>
-
-          <TituloLogin>Login</TituloLogin>
-          <TituloDados>Digite seus dados para entrar.</TituloDados>
-
-          <Input 
-            placeholder="Digite seu e-mail"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            leftIcon={{
-              type: 'feather',
-              name: 'mail'
-            }} 
-            autoCompleteType={undefined}         
-          />
-
-          <Input 
-            placeholder="Digite sua senha"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            leftIcon={{
-              type: 'feather',
-              name: 'lock'
-            }}
-            rightIcon={
-              <Icon 
-               name={eye === true ? 'eye' : 'eye-off'}
-               type='feather'
-               onPress={ () => setEye(eye => eye === true ? false : true)}
-               tvParallaxProperties={undefined}               
+             <AreaInput>        
+              <Input 
+                placeholder="Digite seu e-mail"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                leftIcon={{
+                  type: 'feather',
+                  name: 'mail'
+                }} 
+                autoCompleteType={undefined}         
               />
-            }
-            secureTextEntry={eye} 
-            autoCompleteType={undefined}         
-          />
 
-          <SignButtons 
-            title='Entrar'
-            loading={loading}
-            onPress={LoginUser}
-          />
+              <Input 
+                placeholder="Digite sua senha"
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                leftIcon={{
+                  type: 'feather',
+                  name: 'lock'
+                }}
+                rightIcon={
+                  <Icon 
+                  name={eye === true ? 'eye' : 'eye-off'}
+                  type='feather'
+                  onPress={ () => setEye(eye => eye === true ? false : true)}
+                  tvParallaxProperties={undefined}               
+                  />
+                }
+                secureTextEntry={eye} 
+                autoCompleteType={undefined}         
+              />  
+             </AreaInput>
+             
+             <AreaButton>
+              <SignButtons 
+                title='Entrar'
+                loading={loading}
+                onPress={LoginUser}
+              />  
+                <AreaTextLink>
+                <LinkText>Ainda não possui uma conta?</LinkText>
+                  <LinkCadastro onPress={ () => navigation.navigate('SignUp')}>
+                  <LinkTextBold>Cadastre-se</LinkTextBold>
+                </LinkCadastro>
+                </AreaTextLink>
+             </AreaButton>
+             
 
-          <ViewCadastro>
-            <LinkText>Ainda não possui uma conta?</LinkText>
-             <LinkCadastro onPress={ () => navigation.navigate('SignUp')}>
-               <LinkTextBold>Cadastre-se</LinkTextBold>
-             </LinkCadastro>
-          </ViewCadastro>
-        
-        </AreaInput>    
-
-      </Container>
-     </Background>
+          </Container>
+      </ScrollView>
   )
 }

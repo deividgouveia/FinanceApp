@@ -1,7 +1,18 @@
 import React, { useRef, useState } from "react";
-import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import styled from "styled-components/native";
+import { Animated, Modal, ScrollView, StyleSheet } from "react-native";
 import { Icon } from 'react-native-elements';
+import ModalButtons from "../ModalButtons";
+import {
+  Container,
+  AddButtonTab,
+  ContinerModal,
+  BackgroundModal,
+   ViewHeader,
+  TitleModal,
+  CloseButton,
+  ViewInput,
+  Input
+} from './styles';
 
 export const AddRegister: React.FC = () => {
   
@@ -12,16 +23,16 @@ export const AddRegister: React.FC = () => {
     setVisible(true)
     Animated.timing(animation, {
        toValue: 1,
-       duration: 500,
+       duration: 300,
        useNativeDriver: true
     }).start();
  }
 
   const AniOut = () => {
-    setTimeout(() => setVisible(false), 400)
+    setTimeout(() => setVisible(false), 200)
      Animated.timing(animation, {
         toValue: 0,
-        duration: 500,
+        duration: 300,
         useNativeDriver: true
      }).start();
   }
@@ -37,9 +48,14 @@ export const AddRegister: React.FC = () => {
            tvParallaxProperties={undefined}
          />
       </AddButtonTab> 
-
-      <Modal transparent visible={visible}>
+      
+      
+      <Modal 
+        transparent visible={visible}
+       >
+      
       <BackgroundModal>
+         <ScrollView>
          <Animated.View style={[styles.ViewModal, {opacity: animation}]} >
          <ContinerModal>
           
@@ -55,67 +71,38 @@ export const AddRegister: React.FC = () => {
                   />
                 </CloseButton>
              </ViewHeader>
+
+             <ViewInput>
+                <Input 
+                 placeholder="Digite um valor desejado"
+                 keyboardType="numeric"
+                />
+                <ModalButtons 
+                  title="Registrar"
+                  color="#004aad"
+                  loading={false}
+                  onPress={()=>null}
+                />
+             </ViewInput>
           
         </ContinerModal>
          </Animated.View>
+         </ScrollView>
       </BackgroundModal>
+      
     </Modal>
+    
 
     </Container>
   )
 }
-
-const Container = styled(View)`
-   flex-direction: column;
-`;
-
-const AddButtonTab = styled(TouchableOpacity)`
-  justify-content: center;
-  align-items: center;  
-  width: 70px;
-  height: 70px;
-  background-color: #fff;
-  border-radius: 100px;
-  border-width: 4px;
-  border-color: #004dda;
-  top: -30px;
-  elevation: 5px;
-`;
-
-const ContinerModal = styled(View)`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-const BackgroundModal = styled(View)`
-  flex: 1;
-  background-color: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-`;
-
-const ViewHeader = styled(View)`
-  flex-direction: row;
-  width: 100%;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const TitleModal = styled(Text)`
-  font-size: 20px;
-  font-weight: bold;
-  left: 10px;
-`;
-
-const CloseButton = styled(TouchableOpacity)`
-  right: -50px;
-`;
-
 const styles = StyleSheet.create({
   ViewModal: {
-    width: "80%",
+    flex: 1,
+    width: "90%",
+    height: "30%",
+    marginTop: "70%",
+    marginLeft: "5%",
     backgroundColor: "#fff",
     paddingLeft: 20,
     paddingRight: 20,

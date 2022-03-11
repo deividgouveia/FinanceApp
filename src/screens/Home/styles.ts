@@ -3,7 +3,6 @@ import styled from "styled-components/native";
 
 export const Container = styled(View)`
  flex: 1;
- background-color: #ffffff;
 `;
 
 export const ViewLogo = styled(View)`
@@ -33,7 +32,7 @@ export const TextList = styled(Text)`
   font-size: 15px;
   color: #18b738;
   font-weight: bold;
-  top: 40px;
+  top: 35px;
 `;
 
 export const List = styled(FlatList)`
@@ -43,4 +42,12 @@ export const List = styled(FlatList)`
   margin-left: 8px;
   margin-right: 8px;
   margin-bottom: 135px;
+`;
+
+export const ViewList = styled(View)`
+  flex: 1;
+  height: 600px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  elevation: 3px;
 `;

@@ -3,20 +3,20 @@ import { useNavigation } from '@react-navigation/native';
 import { Icon, Input } from 'react-native-elements';
 import { useAuth } from '../../contexts/auth'; 
 import { 
-  Container,
-  Background,
+  AreaButton,
   AreaInput,
-  ViewLogin,
+  AreaTextLink,
+  Container, 
+  TextSubtitulo, 
+  TextTitulo,
   LinkCadastro,
   LinkText,
-  LinkTextBold,
-  TituloLogin,
-  TituloDados,
-  AreaImage,
+  LinkTextBold
 } from './styles';
 
 import SignButtons from '../../components/atoms/Buttons/SignButtons';
 import Header from '../../components/molecules/Header';
+import { ScrollView } from 'react-native';
 
 export default function SignUp() {
 
@@ -34,76 +34,73 @@ export default function SignUp() {
   }
 
   return (
-    <Background>
-      <Container>   
+    <ScrollView style={{backgroundColor: '#ffffff'}}>
+          <Container>
+             
+             <Header/>
+             <TextTitulo>Cadastro</TextTitulo>
+             <TextSubtitulo>Digite seus dados para cadastrar.</TextSubtitulo>
 
-        <AreaImage>
-          <Header />
-        </AreaImage>  
-          
-        <AreaInput>
-
-          <TituloLogin>Cadastro</TituloLogin>
-          <TituloDados>Digite seus dados para cadastrar.</TituloDados>
-
-           <Input 
-            placeholder="Digite seu nome"
-            value={nome}
-            onChangeText={(text) => setNome(text)}
-            leftIcon={{
-              type: 'feather',
-              name: 'user'
-            }} 
-            autoCompleteType={undefined}         
-          />
-
-          <Input 
-            placeholder="Digite seu e-mail"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            leftIcon={{
-              type: 'feather',
-              name: 'mail'
-            }} 
-            autoCompleteType={undefined}         
-          />
-
-          <Input 
-            placeholder="Digite sua senha"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            leftIcon={{
-              type: 'feather',
-              name: 'lock'
-            }}
-            rightIcon={
-              <Icon 
-               name={eye === true ? 'eye' : 'eye-off'}
-               type='feather'
-               onPress={ () => setEye(eye => eye === true ? false : true)}
-               tvParallaxProperties={undefined}               
+             <AreaInput>
+              <Input 
+                placeholder="Digite seu nome"
+                value={nome}
+                onChangeText={(text) => setNome(text)}
+                leftIcon={{
+                  type: 'feather',
+                  name: 'user'
+                }} 
+                autoCompleteType={undefined}         
               />
-            }
-            secureTextEntry={eye} 
-            autoCompleteType={undefined}         
-          />
 
-          <SignButtons 
-           title='Cadastrar'
-           loading={loading}
-           onPress={RegisterUser}
-          />
+              <Input 
+                placeholder="Digite seu e-mail"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                leftIcon={{
+                  type: 'feather',
+                  name: 'mail'
+                }} 
+                autoCompleteType={undefined}         
+              />
 
-          <ViewLogin>
-            <LinkText>Já possui uma conta?</LinkText>
-             <LinkCadastro onPress={() => navigation.goBack()}>
-              <LinkTextBold>Faça Login</LinkTextBold>
-             </LinkCadastro> 
-          </ViewLogin>
-        
-        </AreaInput>    
+              <Input 
+                placeholder="Digite sua senha"
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                leftIcon={{
+                  type: 'feather',
+                  name: 'lock'
+                }}
+                rightIcon={
+                  <Icon 
+                  name={eye === true ? 'eye' : 'eye-off'}
+                  type='feather'
+                  onPress={ () => setEye(eye => eye === true ? false : true)}
+                  tvParallaxProperties={undefined}               
+                  />
+                }
+                secureTextEntry={eye} 
+                autoCompleteType={undefined}         
+              />  
+             </AreaInput>
+             
+             <AreaButton>
+              <SignButtons 
+                title='Cadastrar'
+                loading={loading}
+                onPress={RegisterUser}
+              />  
+              <AreaTextLink>
+              <LinkText>Já possui uma conta?</LinkText>
+                <LinkCadastro onPress={ () => navigation.goBack()}>
+                <LinkTextBold>Faça Login</LinkTextBold>
+              </LinkCadastro>
+              </AreaTextLink>
+             </AreaButton>
+             
 
-      </Container>
-     </Background>
+          </Container>
+      </ScrollView>
   )
 }
