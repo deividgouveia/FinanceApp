@@ -1,45 +1,47 @@
 import React, { useRef, useState } from "react";
-import { Animated, Modal, ScrollView, StyleSheet } from "react-native";
+import { 
+  Animated,
+  Modal
+} from "react-native";
 import { Icon } from 'react-native-elements';
 import ModalButtons from "../ModalButtons";
+import Picker from "../../Picker";
 import {
   Container,
   AddButtonTab,
-  ContinerModal,
-  BackgroundModal,
-   ViewHeader,
+  ContainerModal,
+  ViewHeader,
   TitleModal,
   CloseButton,
   ViewInput,
-  Input
+  Input,
+  ViewButton,
+  BackgroundModal,
+  TextTipo,
+  TextError
 } from './styles';
 
 export const AddRegister: React.FC = () => {
   
-  const [visible, setVisible] = useState(false);
-  const animation = useRef(new Animated.Value(0)).current;
+  const [visible, setVisible] = useState<boolean>(false);
+  const [valor, setValor] = useState('');
+  const [tipo, setTipo] = useState<string>('receita');
+  const [errorText, setErrorText] = useState<boolean>(false);
 
-  const AniIn = () => {
-    setVisible(true)
-    Animated.timing(animation, {
-       toValue: 1,
-       duration: 300,
-       useNativeDriver: true
-    }).start();
- }
-
-  const AniOut = () => {
-    setTimeout(() => setVisible(false), 200)
-     Animated.timing(animation, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true
-     }).start();
+  function AddGasto (){
+    if(valor === ''){
+      setErrorText(true);
+    }
   }
 
-  return(
+  function handleValor (text:string){
+    setValor(text);
+    setErrorText(false);
+  }
+
+  return( 
     <Container>
-      <AddButtonTab onPress={AniIn}>
+      <AddButtonTab onPress={() => setVisible(true)}>
          <Icon 
            name="plus"
            type="material-community"
@@ -48,20 +50,13 @@ export const AddRegister: React.FC = () => {
            tvParallaxProperties={undefined}
          />
       </AddButtonTab> 
-      
-      
-      <Modal 
-        transparent visible={visible}
-       >
-      
-      <BackgroundModal>
-         <ScrollView>
-         <Animated.View style={[styles.ViewModal, {opacity: animation}]} >
-         <ContinerModal>
-          
-             <ViewHeader>
-                <TitleModal>Registrar Gasto</TitleModal>
-                <CloseButton onPress={AniOut}>
+
+      <Modal transparent visible={visible} animationType="none">
+        <BackgroundModal>
+          <ContainerModal>
+            <ViewHeader>
+              <TitleModal>Registrar Gasto</TitleModal>
+                <CloseButton onPress={() => {setVisible(false),setErrorText(false)}}>
                   <Icon 
                   name="close"
                   type="material-community"
@@ -70,44 +65,34 @@ export const AddRegister: React.FC = () => {
                   tvParallaxProperties={undefined}
                   />
                 </CloseButton>
-             </ViewHeader>
+            </ViewHeader>
 
-             <ViewInput>
-                <Input 
-                 placeholder="Digite um valor desejado"
-                 keyboardType="numeric"
-                />
-                <ModalButtons 
-                  title="Registrar"
-                  color="#004aad"
-                  loading={false}
-                  onPress={()=>null}
-                />
-             </ViewInput>
-          
-        </ContinerModal>
-         </Animated.View>
-         </ScrollView>
-      </BackgroundModal>
-      
-    </Modal>
-    
+            <ViewInput>
+              <Input border={errorText}
+                placeholder="Digite um valor desejado"
+                keyboardType="numeric"
+                value={valor}
+                onChangeText={handleValor}
+              />
+              {errorText === true ? 
+              <TextError>Digite um valor.</TextError> : null}
+              <TextTipo>Selecionar tipo</TextTipo>
+              <Picker setTipo={setTipo} tipo={tipo}/>
+            </ViewInput>
+
+            <ViewButton>
+              <ModalButtons 
+                title="Registrar"
+                color="#004aad"
+                loading={false}
+                onPress={AddGasto}
+              />
+            </ViewButton>
+          </ContainerModal>
+        </BackgroundModal>
+      </Modal>
 
     </Container>
   )
 }
-const styles = StyleSheet.create({
-  ViewModal: {
-    flex: 1,
-    width: "90%",
-    height: "30%",
-    marginTop: "70%",
-    marginLeft: "5%",
-    backgroundColor: "#fff",
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 30,
-    paddingBottom: 30,
-    borderRadius: 20
-  }
-})
+

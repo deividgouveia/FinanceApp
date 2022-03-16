@@ -2,13 +2,15 @@ import styled from "styled-components/native";
 import { 
   View, 
   TouchableOpacity, 
-  Text, 
-  SafeAreaView, 
-  TextInput, 
+  Text,  
+  TextInput,
+  ScrollView 
 } from "react-native";
 
-export const Container = styled(SafeAreaView)`
-   flex-direction: column;
+export const Container = styled(View)`
+   flex: 0.5;
+   justify-content: center;
+   align-items: center;
 `;
 
 export const AddButtonTab = styled(TouchableOpacity)`
@@ -24,23 +26,23 @@ export const AddButtonTab = styled(TouchableOpacity)`
   elevation: 5px;
 `;
 
-export const ContinerModal = styled(View)`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const BackgroundModal = styled(View)`
+export const BackgroundModal = styled(ScrollView)`
   flex: 1;
   background-color: rgba(0,0,0,0.5);
-  justify-content: center;
+`;
+
+export const ContainerModal = styled(View)`
+  background-color: #fff;
+  padding: 20px;
+  width: 80%;
+  border-radius: 20px;
   align-items: center;
+  margin-left: 10%;
+  margin-top: 50%;
 `;
 
 export const ViewHeader = styled(View)`
   flex-direction: row;
-  width: 100%;
-  height: 40px;
   justify-content: center;
   align-items: center;
 `;
@@ -48,21 +50,46 @@ export const ViewHeader = styled(View)`
 export const TitleModal = styled(Text)`
   font-size: 20px;
   font-weight: bold;
-  left: 10px;
+  color: #1c1c1c;
+  right: -10px;
 `;
 
 export const CloseButton = styled(TouchableOpacity)`
+  justify-content: center;
+  align-items: center;
   right: -50px;
 `;
 
 export const ViewInput = styled(View)`
-  justify-content: center;
-  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  padding: 20px;
 `;
 
 export const Input = styled(TextInput)`
-  width: 250px;
   height: 50px;
-  border-width: 4px;
-  background-color: rgba(255,255,255, 0.5) ;
+  font-size: 15px;
+  border-width: ${(props: {border:boolean}) =>
+     props.border === true ? 2 : 0};
+  border-color: ${(props: {border:boolean}) => 
+     props.border === true ? '#e54848' : null}
+  padding-left: 10px;
+  border-radius: 0px;
+  background-color: rgba(0,0,0,0.10) ;
+`;
+
+export const TextError = styled(Text)`
+  font-size: 13px;
+  color: #e54848;
+`;
+
+export const TextTipo = styled(Text)`
+  font-size: 15px;
+  color: #4f4f4f;
+  bottom: -18px;
+`;
+
+export const ViewButton = styled(View)`
+  width: 85%;
+  margin-top: 20px;
 `;

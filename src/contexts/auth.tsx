@@ -26,7 +26,7 @@ export const AuthProvider: React.FC = ({children}) => {
     nome: '',
     email: '',
   });
-  const [loading, setLoadign] = useState(false);
+  const [loading, setLoadign] = useState<boolean>(false);
 
   const auth = getAuth(app);
 

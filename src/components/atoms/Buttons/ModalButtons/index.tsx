@@ -17,14 +17,11 @@ const ModalButtons: FunctionComponent<{
    titleStyle={{
     fontWeight:"bold", 
     fontSize: 15,
-    right: 75
    }}
-   buttonStyle={{
-    marginTop: 15, 
+   buttonStyle={{ 
     padding: 15, 
-    width: "150%",
-    borderRadius: 10,
-    backgroundColor: color
+    backgroundColor: color,
+    borderRadius: 10
    }}
    loadingStyle={{}}
    onPress={()=>onPress()}

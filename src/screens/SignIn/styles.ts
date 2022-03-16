@@ -11,14 +11,14 @@ export const TextTitulo = styled(Text)`
   font-size: 25px;
   font-weight: bold;
   color: #004dda;
-  left: -120px;
+  left: -125px;
   margin-bottom: 5px;
 `;
 
 export const TextSubtitulo = styled(Text)`
   font-size: 16px;
   color: #131313;
-  left: -45px;
+  left: -50px;
   margin-bottom: 25px;
 `; 
 
