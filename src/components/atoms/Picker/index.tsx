@@ -4,7 +4,7 @@ import { Picker as PickerSelect} from "@react-native-picker/picker";
 
 interface IProps {
     tipo: string
-    setTipo: string
+    setTipo: (active: string) => void
 }
 
 const Picker: React.FC<IProps> = ({tipo, setTipo}) => {

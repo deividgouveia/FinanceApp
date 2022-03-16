@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { 
-  Animated,
   Modal
 } from "react-native";
 import { Icon } from 'react-native-elements';
@@ -25,7 +24,7 @@ export const AddRegister: React.FC = () => {
   
   const [visible, setVisible] = useState<boolean>(false);
   const [valor, setValor] = useState('');
-  const [tipo, setTipo] = useState<string>('receita');
+  const [tipo, setTipo] = useState('receita');
   const [errorText, setErrorText] = useState<boolean>(false);
 
   function AddGasto (){
@@ -37,6 +36,13 @@ export const AddRegister: React.FC = () => {
   function handleValor (text:string){
     setValor(text);
     setErrorText(false);
+  }
+
+  function handleClose (){
+    setVisible(false);
+    setErrorText(false);
+    setValor('');
+    setTipo('receita');
   }
 
   return( 
@@ -56,7 +62,7 @@ export const AddRegister: React.FC = () => {
           <ContainerModal>
             <ViewHeader>
               <TitleModal>Registrar Gasto</TitleModal>
-                <CloseButton onPress={() => {setVisible(false),setErrorText(false)}}>
+                <CloseButton onPress={handleClose}>
                   <Icon 
                   name="close"
                   type="material-community"
@@ -77,7 +83,7 @@ export const AddRegister: React.FC = () => {
               {errorText === true ? 
               <TextError>Digite um valor.</TextError> : null}
               <TextTipo>Selecionar tipo</TextTipo>
-              <Picker setTipo={setTipo} tipo={tipo}/>
+              <Picker tipo={tipo} setTipo={setTipo}/>
             </ViewInput>
 
             <ViewButton>
