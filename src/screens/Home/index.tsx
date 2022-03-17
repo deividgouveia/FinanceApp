@@ -36,7 +36,6 @@ export default function Home() {
 
   return (
     <ScrollView style={{backgroundColor: "#ffffff"}}>
-     
       <Container>
         
         <ViewLogo>

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { 
-  Modal
+  Modal,
+  Alert
 } from "react-native";
 import { Icon } from 'react-native-elements';
 import ModalButtons from "../ModalButtons";
 import Picker from "../../Picker";
+import { getAuth } from "firebase/auth";
+import { db } from "../../../../services/firebaseConnection";
+import { onValue, push, ref } from "firebase/database";
+import { format } from 'date-fns';
 import {
   Container,
   AddButtonTab,
@@ -20,6 +25,7 @@ import {
   TextError
 } from './styles';
 
+
 export const AddRegister: React.FC = () => {
   
   const [visible, setVisible] = useState<boolean>(false);
@@ -27,11 +33,51 @@ export const AddRegister: React.FC = () => {
   const [tipo, setTipo] = useState('receita');
   const [errorText, setErrorText] = useState<boolean>(false);
 
-  function AddGasto (){
-    if(valor === ''){
+  const auth = getAuth();
+
+  function handleButtonAdd (){
+    if(isNaN(parseFloat(valor))){
       setErrorText(true);
+      return;
     }
+     
+    Alert.alert(
+      'Confirmando dados',
+      `Tipo: ${tipo} - Valor: ${parseFloat(valor)}`,
+      [
+        {text: 'Cancelar', style: 'cancel'},
+        {text: 'Continuar', onPress: () => handleAddGasto()}
+      ]
+    )
   }
+  
+  //ADICIONAR GASTO-----------------------------------------------------------//
+  async function handleAddGasto (){
+    
+    let uid = await auth.currentUser?.uid;
+    await push(ref(db, 'historico/' + uid),{
+      tipo: tipo,
+      valor: parseFloat(valor),
+      date: format(new Date(), 'dd/MM/yy')
+    })
+    .then(async()=>{
+      //ATUALIZAR O SALDO
+      let user = await ref(db, 'users/' + uid);
+      await onValue(user, (snapshot) => {
+      snapshot.forEach((chilItem)=>{
+         let saldo = parseFloat(chilItem.val().saldo);
+
+         tipo === 'despesa' ? 
+         saldo -= parseFloat(valor) : saldo += parseFloat(valor);
+      })
+    })
+    }).catch(()=>{
+       Alert.alert('Error'); 
+    })
+    setValor('');
+    setVisible(false);
+  }
+  //--------------------------------------------------------------------------//
 
   function handleValor (text:string){
     setValor(text);
@@ -91,7 +137,7 @@ export const AddRegister: React.FC = () => {
                 title="Registrar"
                 color="#004aad"
                 loading={false}
-                onPress={AddGasto}
+                onPress={handleButtonAdd}
               />
             </ViewButton>
           </ContainerModal>

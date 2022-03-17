@@ -18,7 +18,6 @@ export default function Profile() {
 
   return (
     <Container>
-
       <ViewProfile>
          <Icon 
           name="account-circle-outline"
