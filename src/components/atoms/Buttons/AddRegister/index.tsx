@@ -6,10 +6,12 @@ import {
 import { Icon } from 'react-native-elements';
 import ModalButtons from "../ModalButtons";
 import Picker from "../../Picker";
+import Toast from 'react-native-toast-message';
 import { getAuth } from "firebase/auth";
-import { db } from "../../../../services/firebaseConnection";
-import { onValue, push, ref } from "firebase/database";
+import { db, dbRef } from "../../../../services/firebaseConnection";
+import { child, get, push, ref, update} from "firebase/database";
 import { format } from 'date-fns';
+import { useAuth } from "../../../../contexts/auth";
 import {
   Container,
   AddButtonTab,
@@ -34,9 +36,10 @@ export const AddRegister: React.FC = () => {
   const [errorText, setErrorText] = useState<boolean>(false);
 
   const auth = getAuth();
+  const {user: usuario} = useAuth();
 
   function handleButtonAdd (){
-    if(isNaN(parseFloat(valor))){
+    if(isNaN(parseFloat(valor)) || valor === '0'){
       setErrorText(true);
       return;
     }
@@ -51,27 +54,40 @@ export const AddRegister: React.FC = () => {
     )
   }
   
-  //ADICIONAR GASTO-----------------------------------------------------------//
+  //ADICIONAR REGISTRO -------------------------------------------------------//
   async function handleAddGasto (){
     
-    let uid = await auth.currentUser?.uid;
+    const uid = usuario.uid; 
     await push(ref(db, 'historico/' + uid),{
       tipo: tipo,
       valor: parseFloat(valor),
       date: format(new Date(), 'dd/MM/yy')
     })
     .then(async()=>{
-      //ATUALIZAR O SALDO
-      let user = await ref(db, 'users/' + uid);
-      await onValue(user, (snapshot) => {
-      snapshot.forEach((chilItem)=>{
-         let saldo = parseFloat(chilItem.val().saldo);
+      //ATUALIZAR O SALDO-----------------------------------------------------//
+        await get(child(dbRef, `users/${uid}`))
+        .then(async(snapshot) => {
+          if(snapshot.exists()){
+            let saldo = snapshot.val().saldo;
 
-         tipo === 'despesa' ? 
-         saldo -= parseFloat(valor) : saldo += parseFloat(valor);
+            tipo === 'despesa' ? 
+            saldo -= parseFloat(valor) : saldo += parseFloat(valor);
+
+            await update(ref(db, 'users/' + uid + '/'),{
+              saldo: saldo
+            })
+          }
+        })
+        .catch(()=>{console.log('Sem saldo!')})      
+      //----------------------------------------------------------------------//
+      Toast.show({
+        type: 'info',
+        position: 'bottom',
+        text1: 'Valor registrado com sucesso!',
+        text2: 'check-circle'
       })
     })
-    }).catch(()=>{
+    .catch(()=>{
        Alert.alert('Error'); 
     })
     setValor('');

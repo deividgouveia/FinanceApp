@@ -37,7 +37,3 @@ export const ValorText = styled(Text)`
   font-size: 22px;
   font-weight: bold;
 `;
-
-export const IconDelete = styled(TouchableOpacity)`
-  margin-top: 12px;
-`;

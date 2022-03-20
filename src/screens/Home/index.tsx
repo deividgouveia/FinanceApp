@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { 
   Container,
   ViewLogo,
@@ -12,27 +12,36 @@ import {
 import { useAuth } from '../../contexts/auth'
 import Header from '../../components/molecules/HeaderHome';
 import HistoryList from '../../components/atoms/HistoryList';
-import { IDados } from '../../interfaces';
 import { ScrollView } from 'react-native';
+import { child, onValue, ref } from 'firebase/database';
+import { db } from '../../services/firebaseConnection';
+
+interface IDados{
+  key: string | null
+  tipo: string
+  valor: number
+  data: string
+} 
 
 export default function Home() {
 
-  const [historico, setHistorico] = useState<IDados[]>([
-    {key: '1', tipo:'receita', valor:1200},
-    {key: '2', tipo:'despesa', valor:200},
-    {key: '3', tipo:'receita', valor:40},
-    {key: '4', tipo:'receita', valor:100},
-    {key: '5', tipo:'despesa', valor:89.62},
-    {key: '6', tipo:'despesa', valor:89.62},
-    {key: '7', tipo:'receita', valor:89.62},
-    {key: '8', tipo:'despesa', valor:89.62}
-  ]);
+  const [historico, setHistorico] = useState<IDados[]>([]);
+  const [saldo, setSaldo] = useState(0);
 
-  const {user} = useAuth();
+  const {user: usuario} = useAuth();
 
-  async function handleDelete(){
-
-  }
+  useEffect(()=>{
+    async function loadList(){
+       
+      const uid = usuario.uid;
+      const saldoAtual = await ref(db, 'users/' + uid);
+      onValue(saldoAtual, (snapshot) => {
+        let data = snapshot.val().saldo;
+        setSaldo(data);
+      })
+    }
+    loadList();  
+  },[])
 
   return (
     <ScrollView style={{backgroundColor: "#ffffff"}}>
@@ -43,8 +52,10 @@ export default function Home() {
         </ViewLogo>
 
         <ViewTitulos>
-          <TextNome>Olá, {user && user.nome}</TextNome>
-          <TextSaldo>R$ 000000</TextSaldo>
+          <TextNome>Olá, {usuario && usuario.nome}</TextNome>
+          <TextSaldo>
+            R$ {saldo.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}
+          </TextSaldo>
           <TextList>Últimas movimentações</TextList>
         </ViewTitulos>
         
@@ -54,7 +65,7 @@ export default function Home() {
          data={historico}
          keyExtractor={ (item, index) => index.toString()} 
          renderItem={({item}) => (
-           <HistoryList data={item} deleteItem={handleDelete}/>
+           <HistoryList data={item}/>
          )}
         />
         </ViewList>

@@ -6,11 +6,17 @@ import {
   Tipo,
   TipoText,
   ValorText,
-  IconDelete
 } from "./styles";
-import { IDados } from "../../../interfaces";
 
-const HistoryList: React.FC<{data:IDados, deleteItem:Function}> = ({data , deleteItem}) => {
+interface IDados{
+  key: string | null
+  tipo: string
+  valor: number
+  data: string
+} 
+
+const HistoryList: React.FC<{data:IDados}> = ({data}) => {
+
   return(
     <Container>
 
@@ -27,17 +33,6 @@ const HistoryList: React.FC<{data:IDados, deleteItem:Function}> = ({data , delet
         </IconView>
         <ValorText>R$ {data.valor}</ValorText>
       </Tipo>
-
-      <IconDelete onPress={()=>deleteItem(data)}>
-        <Icon 
-         name="delete"
-         type="material-community"
-         color="#1c1c1c"
-         size={30}
-         tvParallaxProperties={undefined}
-        />
-      </IconDelete>
-
     </Container>
   )
 }
