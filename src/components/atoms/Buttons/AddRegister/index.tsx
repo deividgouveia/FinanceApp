@@ -56,12 +56,14 @@ export const AddRegister: React.FC = () => {
   
   //ADICIONAR REGISTRO -------------------------------------------------------//
   async function handleAddGasto (){
+    setValor('');
+    setVisible(false);
     
     const uid = usuario.uid; 
     await push(ref(db, 'historico/' + uid),{
       tipo: tipo,
       valor: parseFloat(valor),
-      date: format(new Date(), 'dd/MM/yy')
+      date: format(new Date(), 'dd/MM/yyyy')
     })
     .then(async()=>{
       //ATUALIZAR O SALDO-----------------------------------------------------//
@@ -77,21 +79,19 @@ export const AddRegister: React.FC = () => {
               saldo: saldo
             })
           }
+          Toast.show({
+            type: 'info',
+            position: 'bottom',
+            text1: 'Valor registrado com sucesso!',
+            text2: 'check-circle'
+          })
         })
         .catch(()=>{console.log('Sem saldo!')})      
-      //----------------------------------------------------------------------//
-      Toast.show({
-        type: 'info',
-        position: 'bottom',
-        text1: 'Valor registrado com sucesso!',
-        text2: 'check-circle'
-      })
     })
+      //----------------------------------------------------------------------//
     .catch(()=>{
        Alert.alert('Error'); 
     })
-    setValor('');
-    setVisible(false);
   }
   //--------------------------------------------------------------------------//
 
