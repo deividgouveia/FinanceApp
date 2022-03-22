@@ -7,7 +7,9 @@ import {
   TextNome,
   TextSaldo,
   TextList,
-  ViewList
+  ViewList,
+  ViewTituloList,
+  CalendarIcon
 } from './styles';
 import { 
   child,
@@ -27,6 +29,8 @@ import { Alert, ScrollView } from 'react-native';
 import { format, isBefore } from 'date-fns';
 import Toast from 'react-native-toast-message';
 import { db } from '../../services/firebaseConnection';
+import { Icon } from 'react-native-elements';
+import DatePicker from 'react-native-date-picker';
 
 interface IDados{
   key: string | null
@@ -39,6 +43,8 @@ export default function Home() {
 
   const [historico, setHistorico] = useState<IDados[]>([]);
   const [saldo, setSaldo] = useState(0);
+  const [newDate, setNewDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   const {user: usuario} = useAuth();
 
@@ -59,7 +65,7 @@ export default function Home() {
       await query(ref(db, 'historico/' + uid), 
       limitToFirst(10),
       orderByChild('date'),
-      equalTo(format(new Date, 'dd/MM/yyyy')));
+      equalTo(format(newDate, 'dd/MM/yyyy')));
       onValue(historicoAtual, (snapshot) => {
          if(snapshot.exists()){
            setHistorico([]);
@@ -77,7 +83,8 @@ export default function Home() {
     //------------------------------------------------------------------------//  
     }
     loadList();  
-  },[])
+    console.log(newDate)
+  },[newDate])
   
   function handleDelete(data:IDados){
 
@@ -92,8 +99,9 @@ export default function Home() {
 
     if(isBefore(dataItem, dataHoje)){
       //Se a data do registro for anterior a data atual
-      Alert.alert("Você não pode excluir um registro antigo!")
-    }
+      Alert.alert("Excluir","Você não pode excluir um registro antigo!")
+      return;
+    };
 
     Alert.alert(
       "Excluir",
@@ -137,7 +145,7 @@ export default function Home() {
      .catch((error)=>{console.log(error)})
   };
   //--------------------------------------------------------------------------//
-
+  
   return (
     <ScrollView style={{backgroundColor: "#ffffff"}}>
       <Container>
@@ -151,19 +159,45 @@ export default function Home() {
           <TextSaldo>
             R$ {saldo.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}
           </TextSaldo>
-          <TextList>Últimas movimentações</TextList>
         </ViewTitulos>
         
         <ViewList>
-        <List 
-         showsVerticalScrollIndicator={false}
-         data={historico}
-         keyExtractor={ (item, index) => index.toString()} 
-         renderItem={({item}) => (
-           <HistoryList data={item} deleteItem={handleDelete}/>
-         )}
-        />
+          <ViewTituloList>
+            <TextList>Últimas movimentações</TextList> 
+            <CalendarIcon onPress={() => setOpen(true)}>
+              <Icon 
+               name='calendar-week'
+               type='material-community'
+               size={30} 
+               color="#fff"
+               tvParallaxProperties={undefined}              
+              />
+            </CalendarIcon> 
+          </ViewTituloList>
+          <List 
+          showsVerticalScrollIndicator={false}
+          data={historico}
+          keyExtractor={ (item, index) => index.toString()} 
+          renderItem={({item}) => (
+            <HistoryList data={item} deleteItem={handleDelete}/>
+          )}
+          />
         </ViewList>
+
+        <>
+        <DatePicker
+        modal
+        open={open}
+        date={newDate}
+        onConfirm={(date) => {
+          setOpen(false)
+          setNewDate(date)
+        }}
+        onCancel={() => {
+          setOpen(false)
+        }}
+        />
+        </>
 
       </Container>
      </ScrollView>
